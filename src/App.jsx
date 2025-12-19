@@ -45,10 +45,14 @@ function AppContent() {
   const fetchCategories = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-      setCategories(data);
+      setCategories(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]);
     }
   };
 
@@ -113,7 +117,7 @@ function AppContent() {
         <div className="container">
           <h2>Browse The Range</h2>
           <div className="category-grid">
-{[...categories, ...categories].map((category, index) => {
+{(Array.isArray(categories) ? [...categories, ...categories] : []).map((category, index) => {
               const fallbackImages = {
                 'Dining': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=400&fit=crop',
                 'Living': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&h=400&fit=crop',

@@ -22,10 +22,14 @@ function Shop() {
   const fetchProducts = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-      setProducts(data.products || []);
+      setProducts(Array.isArray(data.products) ? data.products : []);
     } catch (error) {
       console.error('Error fetching products:', error);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -34,10 +38,14 @@ function Shop() {
   const fetchCategories = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-      setCategories(data);
+      setCategories(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]);
     }
   };
 
@@ -119,7 +127,7 @@ function Shop() {
           >
             All
           </button>
-          {categories.map(category => (
+          {(Array.isArray(categories) ? categories : []).map(category => (
             <button 
               key={category.name}
               onClick={() => setSelectedCategory(category.name)}
@@ -203,7 +211,7 @@ function Shop() {
               }}
             >
               <option value="All">All Categories</option>
-              {categories.map(category => (
+              {(Array.isArray(categories) ? categories : []).map(category => (
                 <option key={category.name} value={category.name}>
                   {category.name} ({category.count})
                 </option>
