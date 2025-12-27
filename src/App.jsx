@@ -3,6 +3,8 @@ import heroVideo from './assets/1303-145340146.mp4'
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom'
 import Shop from './Shop'
+import About from './About'
+import Contact from './Contact'
 
 function AppContent() {
   const [categories, setCategories] = useState([]);
@@ -163,123 +165,6 @@ function AppContent() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="about" style={{padding: window.innerWidth <= 480 ? '2.5rem 0' : window.innerWidth <= 768 ? '3rem 0' : '4rem 0', backgroundColor: '#f9f9f9'}}>
-        <div className="container">
-          <div style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: window.innerWidth <= 480 ? '2rem' : '3rem', alignItems: 'center'}}>
-            <div>
-              <h2 style={{fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem', marginBottom: '1rem', color: '#B88E2F'}}>About Furniro</h2>
-              <p style={{fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem', lineHeight: '1.8', color: '#666', marginBottom: '1.5rem'}}>
-                We are passionate about creating beautiful, functional furniture that transforms your living spaces. 
-                With over a decade of experience in furniture design and manufacturing, we bring you quality pieces 
-                that combine style, comfort, and durability.
-              </p>
-              <p style={{fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem', lineHeight: '1.8', color: '#666', marginBottom: '2rem'}}>
-                Our commitment to excellence and customer satisfaction has made us a trusted name in home furnishing. 
-                Every piece is carefully crafted to meet the highest standards of quality and design.
-              </p>
-              <div style={{display: 'flex', gap: window.innerWidth <= 480 ? '1rem' : '2rem', flexDirection: window.innerWidth <= 480 ? 'column' : 'row'}}>
-                <div>
-                  <h3 style={{fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem', color: '#B88E2F', margin: '0'}}>500+</h3>
-                  <p style={{color: '#666', margin: '0.5rem 0 0 0'}}>Happy Customers</p>
-                </div>
-                <div>
-                  <h3 style={{fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem', color: '#B88E2F', margin: '0'}}>10+</h3>
-                  <p style={{color: '#666', margin: '0.5rem 0 0 0'}}>Years Experience</p>
-                </div>
-                <div>
-                  <h3 style={{fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem', color: '#B88E2F', margin: '0'}}>50+</h3>
-                  <p style={{color: '#666', margin: '0.5rem 0 0 0'}}>Product Categories</p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <img 
-                src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop" 
-                alt="About Furniro" 
-                style={{width: '100%', borderRadius: '10px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', marginTop: window.innerWidth <= 768 ? '2rem' : '0'}}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="contact" style={{padding: window.innerWidth <= 480 ? '2.5rem 0' : window.innerWidth <= 768 ? '3rem 0' : '4rem 0', backgroundColor: 'white'}}>
-        <div className="container">
-          <h2 style={{textAlign: 'center', fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem', marginBottom: window.innerWidth <= 480 ? '2rem' : '3rem', color: '#B88E2F'}}>Contact Us</h2>
-          <div style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: window.innerWidth <= 480 ? '2rem' : '3rem', maxWidth: '1000px', margin: '0 auto'}}>
-            <div>
-              <h3 style={{color: '#B88E2F', marginBottom: '1.5rem'}}>Get in Touch</h3>
-              <div style={{marginBottom: '1.5rem'}}>
-                <h4 style={{color: '#333', marginBottom: '0.5rem'}}>📍 Address</h4>
-                <p style={{color: '#666', margin: '0'}}>400 University Drive Suite 200<br/>Coral Gables, FL 33134 USA</p>
-              </div>
-              <div style={{marginBottom: '1.5rem'}}>
-                <h4 style={{color: '#333', marginBottom: '0.5rem'}}>📞 Phone</h4>
-                <p style={{color: '#666', margin: '0'}}>+1 (555) 123-4567</p>
-              </div>
-              <div style={{marginBottom: '1.5rem'}}>
-                <h4 style={{color: '#333', marginBottom: '0.5rem'}}>✉️ Email</h4>
-                <p style={{color: '#666', margin: '0'}}>info@furniro.com</p>
-              </div>
-              <div>
-                <h4 style={{color: '#333', marginBottom: '0.5rem'}}>🕒 Working Hours</h4>
-                <p style={{color: '#666', margin: '0'}}>Monday - Friday: 9:00 AM - 6:00 PM<br/>Saturday: 10:00 AM - 4:00 PM</p>
-              </div>
-            </div>
-            <div>
-              <form onSubmit={handleContactSubmit} style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                  required
-                  style={{padding: window.innerWidth <= 480 ? '0.8rem' : '1rem', border: '1px solid #ddd', borderRadius: '5px', fontSize: window.innerWidth <= 480 ? '0.9rem' : '1rem'}}
-                />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                  required
-                  style={{padding: window.innerWidth <= 480 ? '0.8rem' : '1rem', border: '1px solid #ddd', borderRadius: '5px', fontSize: window.innerWidth <= 480 ? '0.9rem' : '1rem'}}
-                />
-                <input
-                  type="tel"
-                  placeholder="Your Phone"
-                  value={contactForm.phone}
-                  onChange={(e) => setContactForm({...contactForm, phone: e.target.value})}
-                  style={{padding: window.innerWidth <= 480 ? '0.8rem' : '1rem', border: '1px solid #ddd', borderRadius: '5px', fontSize: window.innerWidth <= 480 ? '0.9rem' : '1rem'}}
-                />
-
-                <textarea
-                  placeholder="Your Message"
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
-                  required
-                  rows={window.innerWidth <= 480 ? "4" : "5"}
-                  style={{padding: window.innerWidth <= 480 ? '0.8rem' : '1rem', border: '1px solid #ddd', borderRadius: '5px', fontSize: window.innerWidth <= 480 ? '0.9rem' : '1rem', resize: 'vertical'}}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    padding: window.innerWidth <= 480 ? '0.8rem' : '1rem', 
-                    backgroundColor: '#B88E2F', color: 'white',
-                    border: 'none', borderRadius: '5px', 
-                    fontSize: window.innerWidth <= 480 ? '1rem' : '1.1rem',
-                    cursor: 'pointer', transition: 'background 0.3s'
-                  }}
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Social Section */}
       <section className="social">
         <div className="container">
@@ -391,10 +276,10 @@ function AppContent() {
             <div className="footer-section">
               <h4>Links</h4>
               <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#shop">Shop</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
               </ul>
             </div>
             <div className="footer-section">
@@ -433,8 +318,8 @@ function AppContent() {
             <nav className="nav" style={{display: window.innerWidth <= 768 ? 'none' : 'flex', gap: '2rem'}}>
               <button onClick={() => handleSectionNavigation('home')} style={{background: 'none', border: 'none', textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s', cursor: 'pointer'}}>Home</button>
               <Link to="/shop" style={{textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s'}}>Shop</Link>
-              <button onClick={() => handleSectionNavigation('about')} style={{background: 'none', border: 'none', textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s', cursor: 'pointer'}}>About</button>
-              <button onClick={() => handleSectionNavigation('contact')} style={{background: 'none', border: 'none', textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s', cursor: 'pointer'}}>Contact</button>
+              <Link to="/about" style={{textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s'}}>About</Link>
+              <Link to="/contact" style={{textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s'}}>Contact</Link>
             </nav>
             
             <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
@@ -460,8 +345,8 @@ function AppContent() {
               <nav style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                 <button onClick={() => {handleSectionNavigation('home'); setShowMobileMenu(false);}} style={{background: 'none', border: 'none', textAlign: 'left', color: '#333', fontWeight: '500', padding: '0.5rem 0', cursor: 'pointer', fontSize: '1rem'}}>Home</button>
                 <Link to="/shop" onClick={() => setShowMobileMenu(false)} style={{textDecoration: 'none', color: '#333', fontWeight: '500', padding: '0.5rem 0', fontSize: '1rem'}}>Shop</Link>
-                <button onClick={() => {handleSectionNavigation('about'); setShowMobileMenu(false);}} style={{background: 'none', border: 'none', textAlign: 'left', color: '#333', fontWeight: '500', padding: '0.5rem 0', cursor: 'pointer', fontSize: '1rem'}}>About</button>
-                <button onClick={() => {handleSectionNavigation('contact'); setShowMobileMenu(false);}} style={{background: 'none', border: 'none', textAlign: 'left', color: '#333', fontWeight: '500', padding: '0.5rem 0', cursor: 'pointer', fontSize: '1rem'}}>Contact</button>
+                <Link to="/about" onClick={() => setShowMobileMenu(false)} style={{textDecoration: 'none', color: '#333', fontWeight: '500', padding: '0.5rem 0', fontSize: '1rem'}}>About</Link>
+                <Link to="/contact" onClick={() => setShowMobileMenu(false)} style={{textDecoration: 'none', color: '#333', fontWeight: '500', padding: '0.5rem 0', fontSize: '1rem'}}>Contact</Link>
               </nav>
             </div>
           )}
@@ -470,6 +355,8 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<AdminRedirect />} />
         </Routes>
       </div>

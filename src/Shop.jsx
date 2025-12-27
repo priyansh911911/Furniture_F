@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import CloudinaryImage from './CloudinaryImage'
 
 function Shop() {
   const [products, setProducts] = useState([]);
@@ -240,12 +241,14 @@ function Shop() {
               return (
               <div key={product._id} className="product-card">
                 <div className="product-image" onClick={() => openProductModal(product)} style={{cursor: 'pointer'}}>
-                  <img 
+                  <CloudinaryImage 
                     src={product.images.length > 0 
-                      ? `${import.meta.env.VITE_API_URL.replace('/api', '')}/uploads/${product.images[product.mainImageIndex || 0]}` 
+                      ? product.images[product.mainImageIndex || 0]
                       : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop'
                     } 
                     alt={product.name}
+                    width={300}
+                    height={300}
                   />
                   {calculatedDiscount > 0 && <span className="discount">-{calculatedDiscount}%</span>}
                   {product.isNew && <span className="badge new">New</span>}
@@ -299,10 +302,12 @@ function Shop() {
               <div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                   {selectedProduct.images.map((image, index) => (
-                    <img 
+                    <CloudinaryImage 
                       key={index}
-                      src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/uploads/${image}`}
+                      src={image}
                       alt={`${selectedProduct.name} ${index + 1}`}
+                      width={200}
+                      height={200}
                       onClick={() => openImageModal(index)}
                       style={{
                         width: '100%', height: '200px', objectFit: 'cover',
@@ -386,9 +391,11 @@ function Shop() {
               </>
             )}
             
-            <img 
-              src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/uploads/${selectedProduct.images[selectedImageIndex]}`}
+            <CloudinaryImage 
+              src={selectedProduct.images[selectedImageIndex]}
               alt={`${selectedProduct.name} ${selectedImageIndex + 1}`}
+              width={800}
+              height={600}
               style={{
                 maxWidth: '100%', maxHeight: '100%', objectFit: 'contain',
                 borderRadius: '10px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
