@@ -242,8 +242,8 @@ function Shop() {
               <div key={product._id} className="product-card">
                 <div className="product-image" onClick={() => openProductModal(product)} style={{cursor: 'pointer'}}>
                   <CloudinaryImage 
-                    src={product.images.length > 0 
-                      ? product.images[product.mainImageIndex || 0]
+                    src={product.images && product.images.length > 0 
+                      ? product.images[0]
                       : 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop'
                     } 
                     alt={product.name}
