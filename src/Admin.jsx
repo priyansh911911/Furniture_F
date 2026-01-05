@@ -4,7 +4,11 @@ const Admin = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [inquiries, setInquiries] = useState([]);
+  const [inquiryPage, setInquiryPage] = useState(1);
+  const [totalInquiryPages, setTotalInquiryPages] = useState(1);
   const [contacts, setContacts] = useState([]);
+  const [contactPage, setContactPage] = useState(1);
+  const [totalContactPages, setTotalContactPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('products');
   const [editingProduct, setEditingProduct] = useState(null);
@@ -77,27 +81,71 @@ const Admin = () => {
     }
   };
 
-  const loadContacts = async () => {
+  const loadContacts = async (page = 1) => {
     try {
-      const response = await fetch(`${API_BASE}/contact`, {
-        headers: authHeaders()
+      // First try with auth headers
+      let response = await fetch(`${API_BASE}/contact?page=${page}&limit=15`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
+      
+      // If auth fails, try without auth headers
+      if (!response.ok && response.status === 401) {
+        console.log('Trying contacts without auth...');
+        response = await fetch(`${API_BASE}/contact?page=${page}&limit=15`);
+      }
+      
+      if (!response.ok) {
+        console.error('Contact API response not ok:', response.status, response.statusText);
+        const errorText = await response.text();
+        console.error('Error details:', errorText);
+        return;
+      }
+      
       const data = await response.json();
-      setContacts(data || []);
+      console.log('Contacts data received:', data);
+      setContacts(data.contacts || data || []);
+      setTotalContactPages(data.totalPages || 1);
+      setContactPage(page);
     } catch (error) {
       console.error('Failed to load contacts:', error);
+      alert('Failed to load contacts. Check console for details.');
     }
   };
 
-  const loadInquiries = async () => {
+  const loadInquiries = async (page = 1) => {
     try {
-      const response = await fetch(`${API_BASE}/inquiries`, {
-        headers: authHeaders()
+      // First try with auth headers
+      let response = await fetch(`${API_BASE}/inquiries?page=${page}&limit=15`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       });
+      
+      // If auth fails, try without auth headers
+      if (!response.ok && response.status === 401) {
+        console.log('Trying inquiries without auth...');
+        response = await fetch(`${API_BASE}/inquiries?page=${page}&limit=15`);
+      }
+      
+      if (!response.ok) {
+        console.error('Inquiries API response not ok:', response.status, response.statusText);
+        const errorText = await response.text();
+        console.error('Error details:', errorText);
+        return;
+      }
+      
       const data = await response.json();
-      setInquiries(data || []);
+      console.log('Inquiries data received:', data);
+      setInquiries(data.inquiries || data || []);
+      setTotalInquiryPages(data.totalPages || 1);
+      setInquiryPage(page);
     } catch (error) {
       console.error('Failed to load inquiries:', error);
+      alert('Failed to load inquiries. Check console for details.');
     }
   };
 
@@ -426,7 +474,7 @@ const Admin = () => {
                 <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>Product Images (up to 4)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '1rem' }}>
                   {[0,1,2,3].map(i => (
-                    <div key={i} style={{ position: 'relative', border: formData.mainImageIndex === i ? '2px solid #B88E2F' : '1px solid #ddd', borderRadius: '5px', padding: '0.5rem' }}>
+                    <div key={i} style={{ position: 'relative', border: i === 0 ? '2px solid #B88E2F' : '1px solid #ddd', borderRadius: '5px', padding: '0.5rem' }}>
                       {editingProduct?.images?.[i] && (
                         <div style={{ position: 'relative', marginBottom: '0.5rem' }}>
                           <img 
@@ -441,25 +489,22 @@ const Admin = () => {
                         type="file"
                         accept="image/*"
                         onChange={(e) => {
-                          const newImages = [...images];
-                          newImages[i] = e.target.files[0];
-                          setImages(newImages);
+                          const file = e.target.files[0];
+                          if (file) {
+                            if (file.size > 300 * 1024) {
+                              alert('Image size must be less than 300KB');
+                              e.target.value = '';
+                              return;
+                            }
+                            const newImages = [...images];
+                            newImages[i] = file;
+                            setImages(newImages);
+                          }
                         }}
                         style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '5px', width: '100%', boxSizing: 'border-box', fontSize: window.innerWidth <= 768 ? '0.8rem' : '1rem' }}
                       />
-                      <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <input
-                          type="radio"
-                          name="mainImage"
-                          checked={formData.mainImageIndex === i}
-                          onChange={() => setFormData({...formData, mainImageIndex: i})}
-                          id={`main-${i}`}
-                          style={{ cursor: 'pointer' }}
-                        />
-                        <label htmlFor={`main-${i}`} style={{ fontSize: '0.8rem', color: '#666', cursor: 'pointer' }}>Main</label>
-                      </div>
-                      <small style={{ color: '#666', fontSize: '0.8rem', display: 'block' }}>{editingProduct?.images?.[i] ? 'Replace image' : 'Add image'}</small>
-                      {formData.mainImageIndex === i && <small style={{ color: '#B88E2F', fontSize: '0.8rem', fontWeight: 'bold' }}>★ Main Image</small>}
+                      <small style={{ color: '#666', fontSize: '0.8rem', display: 'block' }}>{editingProduct?.images?.[i] ? 'Replace image' : `Image ${i+1}`}</small>
+                      {i === 0 && <small style={{ color: '#B88E2F', fontSize: '0.8rem', fontWeight: 'bold' }}>★ Main Image</small>}
                     </div>
                   ))}
                 </div>
@@ -572,26 +617,77 @@ const Admin = () => {
             {inquiries.length === 0 ? (
               <p style={{ textAlign: 'center', color: '#666', padding: '2rem' }}>No product inquiries yet.</p>
             ) : (
-              <div style={{ display: 'grid', gap: '1rem', marginBottom: '200px' }}>
-                {inquiries.map(inquiry => (
-                  <div key={inquiry._id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', backgroundColor: '#f9f9f9' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: '1rem' }}>
-                      <div>
-                        <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Customer Details</h4>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Email:</strong> {inquiry.customerEmail}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Phone:</strong> {inquiry.customerPhone}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: '#666' }}><strong>Date:</strong> {new Date(inquiry.createdAt).toLocaleDateString()}</p>
-                      </div>
-                      <div>
-                        <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Product Details</h4>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Product:</strong> {inquiry.productDbId?.name || inquiry.productName || 'Product not found'}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Price:</strong> ₹{inquiry.productDbId?.price || 'N/A'}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: '#666' }}><strong>ID:</strong> {inquiry.productDbId?.productId || inquiry.productId || 'N/A'}</p>
+              <>
+                <div style={{ display: 'grid', gap: '1rem', marginBottom: '2rem' }}>
+                  {inquiries.map(inquiry => (
+                    <div key={inquiry._id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', backgroundColor: '#f9f9f9' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: '1rem' }}>
+                        <div>
+                          <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Customer Details</h4>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Email:</strong> {inquiry.customerEmail}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Phone:</strong> {inquiry.customerPhone}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: '#666' }}><strong>Date:</strong> {new Date(inquiry.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                          <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Product Details</h4>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Product:</strong> {inquiry.productDbId?.name || inquiry.productName || 'Product not found'}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Price:</strong> ₹{inquiry.productDbId?.price || 'N/A'}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: '#666' }}><strong>ID:</strong> {inquiry.productDbId?.productId || inquiry.productId || 'N/A'}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '200px', flexWrap: 'wrap' }}>
+                  <button 
+                    onClick={() => loadInquiries(inquiryPage - 1)}
+                    disabled={inquiryPage === 1}
+                    style={{ 
+                      padding: '0.5rem 1rem', 
+                      backgroundColor: inquiryPage === 1 ? '#ccc' : '#B88E2F', 
+                      color: 'white', 
+                      border: 'none', 
+                      borderRadius: '5px', 
+                      cursor: inquiryPage === 1 ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    Previous
+                  </button>
+                  
+                  {Array.from({ length: totalInquiryPages }, (_, i) => i + 1).map(pageNum => (
+                    <button
+                      key={pageNum}
+                      onClick={() => loadInquiries(pageNum)}
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        backgroundColor: pageNum === inquiryPage ? '#B88E2F' : 'white',
+                        color: pageNum === inquiryPage ? 'white' : '#B88E2F',
+                        border: '2px solid #B88E2F',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontWeight: pageNum === inquiryPage ? 'bold' : 'normal'
+                      }}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                  
+                  <button 
+                    onClick={() => loadInquiries(inquiryPage + 1)}
+                    disabled={inquiryPage === totalInquiryPages}
+                    style={{ 
+                      padding: '0.5rem 1rem', 
+                      backgroundColor: inquiryPage === totalInquiryPages ? '#ccc' : '#B88E2F', 
+                      color: 'white', 
+                      border: 'none', 
+                      borderRadius: '5px', 
+                      cursor: inquiryPage === totalInquiryPages ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -604,25 +700,76 @@ const Admin = () => {
             {contacts.length === 0 ? (
               <p style={{ textAlign: 'center', color: '#666', padding: '2rem' }}>No contact form submissions yet.</p>
             ) : (
-              <div style={{ display: 'grid', gap: '1rem', marginBottom: '200px' }}>
-                {contacts.map(contact => (
-                  <div key={contact._id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', backgroundColor: '#fff3cd' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: '1rem' }}>
-                      <div>
-                        <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Contact Details</h4>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Name:</strong> {contact.name}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Email:</strong> {contact.email}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Phone:</strong> {contact.phone}</p>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: '#666' }}><strong>Date:</strong> {new Date(contact.createdAt).toLocaleDateString()}</p>
-                      </div>
-                      <div>
-                        <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Message</h4>
-                        <p style={{ margin: '0.25rem 0', fontSize: '0.9rem', lineHeight: '1.4' }}>{contact.message}</p>
+              <>
+                <div style={{ display: 'grid', gap: '1rem', marginBottom: '2rem' }}>
+                  {contacts.map(contact => (
+                    <div key={contact._id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', backgroundColor: '#fff3cd' }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: '1rem' }}>
+                        <div>
+                          <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Contact Details</h4>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Name:</strong> {contact.name}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Email:</strong> {contact.email}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}><strong>Phone:</strong> {contact.phone}</p>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: '#666' }}><strong>Date:</strong> {new Date(contact.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <div>
+                          <h4 style={{ margin: '0 0 0.5rem 0', color: '#B88E2F' }}>Message</h4>
+                          <p style={{ margin: '0.25rem 0', fontSize: '0.9rem', lineHeight: '1.4' }}>{contact.message}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '200px', flexWrap: 'wrap' }}>
+                  <button 
+                    onClick={() => loadContacts(contactPage - 1)}
+                    disabled={contactPage === 1}
+                    style={{ 
+                      padding: '0.5rem 1rem', 
+                      backgroundColor: contactPage === 1 ? '#ccc' : '#B88E2F', 
+                      color: 'white', 
+                      border: 'none', 
+                      borderRadius: '5px', 
+                      cursor: contactPage === 1 ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    Previous
+                  </button>
+                  
+                  {Array.from({ length: totalContactPages }, (_, i) => i + 1).map(pageNum => (
+                    <button
+                      key={pageNum}
+                      onClick={() => loadContacts(pageNum)}
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        backgroundColor: pageNum === contactPage ? '#B88E2F' : 'white',
+                        color: pageNum === contactPage ? 'white' : '#B88E2F',
+                        border: '2px solid #B88E2F',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        fontWeight: pageNum === contactPage ? 'bold' : 'normal'
+                      }}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                  
+                  <button 
+                    onClick={() => loadContacts(contactPage + 1)}
+                    disabled={contactPage === totalContactPages}
+                    style={{ 
+                      padding: '0.5rem 1rem', 
+                      backgroundColor: contactPage === totalContactPages ? '#ccc' : '#B88E2F', 
+                      color: 'white', 
+                      border: 'none', 
+                      borderRadius: '5px', 
+                      cursor: contactPage === totalContactPages ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>

@@ -132,22 +132,38 @@ function AppContent() {
       </section>
 
       {/* Browse Categories */}
-      <section className="categories" style={{marginTop: '50px'}}>
+      <section className="categories" style={{marginTop: '50px', overflow: 'hidden'}}>
         <div className="container">
           <h2>Browse The Range</h2>
-          <div className="category-grid">
-{(Array.isArray(categories) ? [...categories, ...categories] : []).map((category, index) => {
-              const categoryProduct = products.find(p => p.category === category.name);
-              if (!categoryProduct?.images?.[0]) return null;
-              return (
-                <div key={`${category.name}-${index}`} className="category-item">
-                  <img src={categoryProduct.images[0]} alt={category.name} />
-                  <h3>{category.name} ({category.count})</h3>
-                </div>
-              );
-            }).filter(Boolean)}
+          <div className="category-scroll-container" style={{overflow: 'hidden', position: 'relative'}}>
+            <div className="category-scroll" style={{
+              display: 'flex',
+              animation: 'scroll 20s linear infinite',
+              width: 'fit-content'
+            }}>
+              {[...categories, ...categories, ...categories].map((category, index) => {
+                const categoryProduct = products.find(p => p.category === category.name);
+                if (!categoryProduct?.images?.[0]) return null;
+                return (
+                  <div key={`${category.name}-${index}`} className="category-item" style={{
+                    minWidth: '300px',
+                    margin: '0 1rem',
+                    flexShrink: 0
+                  }}>
+                    <img src={categoryProduct.images[0]} alt={category.name} />
+                    <h3>{category.name} ({category.count})</h3>
+                  </div>
+                );
+              }).filter(Boolean)}
+            </div>
           </div>
         </div>
+        <style>{`
+          @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.333%); }
+          }
+        `}</style>
       </section>
 
 
@@ -159,7 +175,7 @@ function AppContent() {
             <div className="inspiration-text">
               <h2>50+ Beautiful rooms inspiration</h2>
               <p>Our designer already made a lot of beautiful prototype of rooms that inspire you</p>
-              <button className="btn-primary">Explore More</button>
+              <button className="btn-primary" onClick={() => navigate('/shop')}>Explore More</button>
             </div>
             <div className="inspiration-images">
               <div className="inspiration-slide">
@@ -275,34 +291,34 @@ function AppContent() {
 
 
       {/* Footer */}
-      <footer className="footer">
+      <footer className="footer" style={{backgroundColor: '#FCF8F3'}}>
         <div className="container">
           <div className="footer-content">
             <div className="footer-section">
-              <h3>Furniro.</h3>
-              <p>400 University Drive Suite 200 Coral Gables,<br />FL 33134 USA</p>
+              <h3 style={{color: '#B88E2F'}}>Furniro.</h3>
+              <p style={{color: '#666'}}>400 University Drive Suite 200 Coral Gables,<br />FL 33134 USA</p>
             </div>
             <div className="footer-section">
-              <h4>Links</h4>
+              <h4 style={{color: '#B88E2F'}}>Links</h4>
               <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/shop">Shop</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/" style={{color: '#666'}}>Home</a></li>
+                <li><a href="/shop" style={{color: '#666'}}>Shop</a></li>
+                <li><a href="/about" style={{color: '#666'}}>About</a></li>
+                <li><a href="/contact" style={{color: '#666'}}>Contact</a></li>
               </ul>
             </div>
             <div className="footer-section">
-              <h4>Help</h4>
+              <h4 style={{color: '#B88E2F'}}>Help</h4>
               <ul>
-                <li><a href="#">Payment Options</a></li>
-                <li><a href="#">Returns</a></li>
-                <li><a href="#">Privacy Policies</a></li>
+                <li><a href="#" style={{color: '#666'}}>Payment Options</a></li>
+                <li><a href="#" style={{color: '#666'}}>Returns</a></li>
+                <li><a href="#" style={{color: '#666'}}>Privacy Policies</a></li>
               </ul>
             </div>
 
           </div>
           <div className="footer-bottom">
-            <p>2023 furniro. All rights reserved</p>
+            <p style={{color: '#666'}}>2023 furniro. All rights reserved</p>
           </div>
         </div>
       </footer>
@@ -314,18 +330,26 @@ function AppContent() {
       <div className="App">
         {/* Header */}
         <header className="header" style={{background: 'white', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', position: 'fixed', top: 0, width: '100%', zIndex: 1000}}>
-          <div className="container" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: window.innerWidth <= 480 ? '0.4rem 0.8rem' : '0.5rem 2rem', height: window.innerWidth <= 480 ? '50px' : '60px'}}>
-            <div className="logo" style={{fontSize: window.innerWidth <= 480 ? '1.2rem' : '1.5rem', fontWeight: 'bold', color: '#B88E2F'}}>
+          <div className="container" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: window.innerWidth <= 480 ? '0.4rem 0.8rem' : '0.5rem 1rem', height: window.innerWidth <= 480 ? '50px' : '60px', maxWidth: '100%'}}>
+            <Link to="/" className="logo" style={{fontSize: window.innerWidth <= 480 ? '1.2rem' : '1.5rem', fontWeight: 'bold', color: '#B88E2F', cursor: 'pointer', textDecoration: 'none'}}>
               <span>🪑 Furniro</span>
-            </div>
-            <nav className="nav" style={{display: window.innerWidth <= 768 ? 'none' : 'flex', gap: '2rem'}}>
+            </Link>
+            
+            <nav className="nav" style={{display: window.innerWidth <= 768 ? 'none' : 'flex', gap: '2rem', position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
               <button onClick={() => handleSectionNavigation('home')} style={{background: 'none', border: 'none', textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s', cursor: 'pointer'}}>Home</button>
               <Link to="/shop" style={{textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s'}}>Shop</Link>
               <Link to="/about" style={{textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s'}}>About</Link>
               <Link to="/contact" style={{textDecoration: 'none', color: '#333', fontWeight: '500', transition: 'color 0.3s'}}>Contact</Link>
             </nav>
             
-            <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '1rem', minWidth: '300px', justifyContent: 'flex-end'}}>
+              {!isMobile && (
+                <>
+                  <span style={{color: '#B88E2F', fontWeight: '500', fontSize: '0.85rem'}}>📧 info@furniro.com</span>
+                  <span style={{color: '#B88E2F', fontWeight: '500', fontSize: '0.85rem'}}>📞 +1 (555) 123-4567</span>
+                </>
+              )}
+              
               {isMobile && (
                 <button 
                   onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -334,12 +358,6 @@ function AppContent() {
                   {showMobileMenu ? '✕' : '☰'}
                 </button>
               )}
-              
-              <div className="header-icons" style={{display: 'flex', gap: window.innerWidth <= 480 ? '0.5rem' : '1rem', fontSize: window.innerWidth <= 480 ? '1rem' : '1.2rem'}}>
-                <span style={{cursor: 'pointer', padding: window.innerWidth <= 480 ? '0.3rem' : '0.5rem', borderRadius: '50%', transition: 'background 0.3s'}} onMouseOver={(e) => e.target.style.background = '#f5f5f5'} onMouseOut={(e) => e.target.style.background = 'transparent'}>👤</span>
-                <span onClick={() => setShowSearchModal(true)} style={{cursor: 'pointer', padding: window.innerWidth <= 480 ? '0.3rem' : '0.5rem', borderRadius: '50%', transition: 'background 0.3s'}} onMouseOver={(e) => e.target.style.background = '#f5f5f5'} onMouseOut={(e) => e.target.style.background = 'transparent'}>🔍</span>
-                <span style={{cursor: 'pointer', padding: window.innerWidth <= 480 ? '0.3rem' : '0.5rem', borderRadius: '50%', transition: 'background 0.3s'}} onMouseOver={(e) => e.target.style.background = '#f5f5f5'} onMouseOut={(e) => e.target.style.background = 'transparent'}>🛒</span>
-              </div>
             </div>
           </div>
           
