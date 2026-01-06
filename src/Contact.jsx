@@ -133,12 +133,12 @@ function Contact() {
       </section>
 
       {/* Map Section */}
-      <section style={{padding: '4rem 8rem', backgroundColor: 'white'}}>
+      <section style={{padding: window.innerWidth <= 768 ? '1rem' : '2rem', backgroundColor: 'white'}}>
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3563.604333840858!2d83.39418237424108!3d26.725084476759477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399143689a6626d1%3A0xc10b99ec97028148!2sNauka%20Vihar%2C%20Ramghar%20Tal%2C%20Gorakhpur%2C%20Uttar%20Pradesh%20273017!5e0!3m2!1sen!2sin!4v1766992629046!5m2!1sen!2sin" 
           width="100%" 
-          height="500" 
-          style={{border: 0, borderRadius: '20px', display: 'block'}} 
+          height={window.innerWidth <= 768 ? "250" : "500"}
+          style={{border: 0, borderRadius: '10px', display: 'block'}} 
           allowFullScreen="" 
           loading="lazy" 
           referrerPolicy="no-referrer-when-downgrade"
