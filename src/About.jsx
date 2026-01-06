@@ -16,7 +16,7 @@ function About() {
         <div className="container">
           <div style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: window.innerWidth <= 480 ? '2rem' : '3rem', alignItems: 'center'}}>
             <div>
-              <h2 style={{fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem', marginBottom: '1rem', color: '#B88E2F'}}>About Furniro</h2>
+              <h2 style={{fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem', marginBottom: '1rem', color: '#B88E2F'}}>About IFB</h2>
               <p style={{fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem', lineHeight: '1.8', color: '#666', marginBottom: '1.5rem'}}>
                 We are passionate about creating beautiful, functional furniture that transforms your living spaces. 
                 With over a decade of experience in furniture design and manufacturing, we bring you quality pieces 
@@ -87,7 +87,7 @@ function About() {
         <div className="container" style={{maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
           <div className="footer-content" style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '2fr 1fr 1fr', gap: '2rem', marginBottom: '1.5rem'}}>
             <div className="footer-section">
-              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>Furniro.</h3>
+              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>IFB.</h3>
               <p style={{color: '#666', lineHeight: '1.5', fontSize: '0.9rem', margin: 0}}>400 University Drive Suite 200<br />Coral Gables, FL 33134 USA</p>
             </div>
             <div className="footer-section">
@@ -110,6 +110,7 @@ function About() {
           </div>
           <div className="footer-bottom" style={{borderTop: '1px solid #ddd', paddingTop: '1rem'}}>
             <p style={{color: '#666', textAlign: 'center', margin: 0, fontSize: '0.85rem'}}>2025 IFB Sitting Collection. All rights reserved</p>
+            <p style={{color: '#666', textAlign: 'center', margin: 0, fontSize: '0.85rem'}}>Developed by - Shine Infosolutions</p>
           </div>
         </div>
       </footer>

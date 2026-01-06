@@ -49,7 +49,7 @@ function Contact() {
               </div>
               <div style={{marginBottom: '1.5rem'}}>
                 <h4 style={{color: '#333', marginBottom: '0.5rem'}}>✉️ Email</h4>
-                <p style={{color: '#666', margin: '0'}}>info@furniro.com</p>
+                <p style={{color: '#666', margin: '0'}}>info@ifb.com</p>
               </div>
               <div>
                 <h4 style={{color: '#333', marginBottom: '0.5rem'}}>🕒 Working Hours</h4>
@@ -149,7 +149,7 @@ function Contact() {
         <div className="container" style={{maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
           <div className="footer-content" style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '2fr 1fr 1fr', gap: '2rem', marginBottom: '1.5rem'}}>
             <div className="footer-section">
-              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>Furniro.</h3>
+              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>IFB.</h3>
               <p style={{color: '#666', lineHeight: '1.5', fontSize: '0.9rem', margin: 0}}>400 University Drive Suite 200<br />Coral Gables, FL 33134 USA</p>
             </div>
             <div className="footer-section">

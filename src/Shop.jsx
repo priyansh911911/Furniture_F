@@ -15,6 +15,7 @@ function Shop() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [inquiryForm, setInquiryForm] = useState({ email: '', phone: '' });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -22,6 +23,7 @@ function Shop() {
     if (categoryParam) {
       setSelectedCategory(categoryParam);
     }
+    setTimeout(() => setIsVisible(true), 100);
   }, [location.search]);
 
   const openInquiryModal = (product) => {
@@ -80,11 +82,11 @@ function Shop() {
   };
 
   return (
-    <div style={{paddingTop: '70px', minHeight: '100vh', background: '#f9f9f9'}}>
+    <div style={{paddingTop: '70px', minHeight: '100vh', background: '#f9f9f9', opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.8s ease'}}>
       {/* Header */}
-      <div style={{background: '#B88E2F', color: 'white', padding: window.innerWidth <= 480 ? '1.5rem 0' : '2rem 0', textAlign: 'center'}}>
-        <h1 style={{margin: 0, fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem'}}>Our Products</h1>
-        <p style={{margin: '0.5rem 0 0 0', fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem'}}>Discover our beautiful furniture collection</p>
+      <div style={{background: '#B88E2F', color: 'white', padding: window.innerWidth <= 480 ? '1.5rem 0' : '2rem 0', textAlign: 'center', transform: isVisible ? 'translateY(0)' : 'translateY(-30px)', transition: 'transform 0.6s ease 0.2s'}}>
+        <h1 style={{margin: 0, fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem', animation: isVisible ? 'fadeInUp 0.8s ease 0.4s both' : 'none'}}>Our Products</h1>
+        <p style={{margin: '0.5rem 0 0 0', fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem', animation: isVisible ? 'fadeInUp 0.8s ease 0.6s both' : 'none'}}>Discover our beautiful furniture collection</p>
       </div>
 
       <div className="container" style={{maxWidth: '1200px', margin: '0 auto', padding: window.innerWidth <= 480 ? '1rem' : window.innerWidth <= 768 ? '1.5rem' : '2rem'}}>
@@ -515,7 +517,7 @@ function Shop() {
         <div className="container" style={{maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
           <div className="footer-content" style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '2fr 1fr 1fr', gap: '2rem', marginBottom: '1.5rem'}}>
             <div className="footer-section">
-              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>Furniro.</h3>
+              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>IFB.</h3>
               <p style={{color: '#666', lineHeight: '1.5', fontSize: '0.9rem', margin: 0}}>400 University Drive Suite 200<br />Coral Gables, FL 33134 USA</p>
             </div>
             <div className="footer-section">
