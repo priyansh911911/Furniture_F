@@ -121,36 +121,38 @@ function AppContent() {
           {/* Left Bottom Text */}
           <div style={{
             position: 'absolute',
-            bottom: '8%',
+            bottom: isMobile ? '15%' : '8%',
             left: '5%',
             color: 'white',
             textAlign: 'left',
-            fontFamily: 'serif'
+            fontFamily: 'serif',
+            maxWidth: isMobile ? '40%' : 'auto'
           }}>
             <div style={{
               opacity: 0,
               animation: 'textLoop 8s infinite'
             }}>
-              <div style={{fontSize: isMobile ? '1.2rem' : '1.8rem', fontWeight: '300', marginBottom: '0.3rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)'}}>"Premium Quality Furniture"</div>
-              <div style={{fontSize: isMobile ? '0.9rem' : '1.2rem', fontWeight: '200', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Handcrafted Excellence</div>
+              <div style={{fontSize: isMobile ? '1rem' : '1.8rem', fontWeight: '300', marginBottom: '0.3rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)', lineHeight: '1.2'}}>"Premium Quality Furniture"</div>
+              <div style={{fontSize: isMobile ? '0.8rem' : '1.2rem', fontWeight: '200', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Handcrafted Excellence</div>
             </div>
           </div>
           
           {/* Right Bottom Text */}
           <div style={{
             position: 'absolute',
-            bottom: '8%',
+            bottom: isMobile ? '15%' : '8%',
             right: '5%',
             color: 'white',
             textAlign: 'right',
-            fontFamily: 'serif'
+            fontFamily: 'serif',
+            maxWidth: isMobile ? '40%' : 'auto'
           }}>
             <div style={{
               opacity: 0,
               animation: 'textLoop 8s infinite 4s'
             }}>
-              <div style={{fontSize: isMobile ? '1.2rem' : '1.8rem', fontWeight: '300', marginBottom: '0.3rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)'}}>"Modern Home Essentials"</div>
-              <div style={{fontSize: isMobile ? '0.9rem' : '1.2rem', fontWeight: '200', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Contemporary Design</div>
+              <div style={{fontSize: isMobile ? '1rem' : '1.8rem', fontWeight: '300', marginBottom: '0.3rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)', lineHeight: '1.2'}}>"Modern Home Essentials"</div>
+              <div style={{fontSize: isMobile ? '0.8rem' : '1.2rem', fontWeight: '200', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Contemporary Design</div>
             </div>
           </div>
         </div>
