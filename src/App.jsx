@@ -182,7 +182,7 @@ function AppContent() {
           <div className="category-scroll-container" style={{overflow: 'hidden', position: 'relative'}}>
             <div className="category-scroll" style={{
               display: 'flex',
-              animation: 'scroll 10s linear infinite',
+              animation: 'scroll 15s linear infinite',
               width: 'fit-content'
             }}>
               {[...products, ...products, ...products].map((product, index) => {
@@ -390,7 +390,7 @@ function AppContent() {
       <div className="App">
         {/* Header */}
         <header className="header" style={{background: 'white', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', position: 'fixed', top: 0, width: '100%', zIndex: 1000}}>
-          <div className="container" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: window.innerWidth <= 480 ? '0.4rem 0.8rem' : '0.5rem 1rem', height: window.innerWidth <= 480 ? '50px' : '60px', maxWidth: '100%'}}>
+          <div className="container" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: window.innerWidth <= 480 ? '0.3rem 0.8rem' : '0.5rem 1rem', height: window.innerWidth <= 480 ? '45px' : '60px', maxWidth: '100%'}}>
             <Link to="/" className="logo" style={{fontSize: window.innerWidth <= 480 ? '1.2rem' : '1.5rem', fontWeight: 'bold', color: '#B88E2F', cursor: 'pointer', textDecoration: 'none'}}>
               <span>🪑 IFB</span>
             </Link>
