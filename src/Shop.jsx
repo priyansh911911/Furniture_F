@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import CloudinaryImage from './CloudinaryImage'
+import { useData } from './DataContext'
+import { useLocation } from 'react-router-dom'
 
 function Shop() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { products, categories, loading } = useData();
+  const location = useLocation();
   const [showInquiryModal, setShowInquiryModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -16,39 +17,12 @@ function Shop() {
   const [inquiryForm, setInquiryForm] = useState({ email: '', phone: '' });
 
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setProducts(Array.isArray(data.products) ? data.products : []);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setProducts([]);
-    } finally {
-      setLoading(false);
+    const urlParams = new URLSearchParams(location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
     }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setCategories(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setCategories([]);
-    }
-  };
+  }, [location.search]);
 
   const openInquiryModal = (product) => {
     setSelectedProduct(product);
@@ -145,8 +119,8 @@ function Shop() {
           ))}
         </div>
 
-        {/* Search Bar and Filter */}
-        <div style={{marginBottom: window.innerWidth <= 480 ? '1.5rem' : '2rem', display: 'flex', justifyContent: 'center', alignItems: window.innerWidth <= 768 ? 'stretch' : 'center', gap: window.innerWidth <= 768 ? '0.5rem' : '1rem', flexDirection: window.innerWidth <= 768 ? 'column' : 'row'}}>
+        {/* Search Bar */}
+        <div style={{marginBottom: window.innerWidth <= 480 ? '1.5rem' : '2rem', display: 'flex', justifyContent: 'center'}}>
           <div style={{position: 'relative', width: '100%', maxWidth: '600px'}}>
             <input
               type="text"
@@ -196,28 +170,6 @@ function Shop() {
                 ×
               </button>
             )}
-          </div>
-          <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0, justifyContent: window.innerWidth <= 768 ? 'center' : 'flex-start'}}>
-            <label style={{fontWeight: 'bold', color: '#333', whiteSpace: 'nowrap'}}>Filter by:</label>
-            <select 
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              style={{
-                padding: window.innerWidth <= 480 ? '0.6rem 0.8rem' : '0.75rem 1rem', 
-                border: '2px solid #B88E2F', borderRadius: '25px',
-                backgroundColor: 'white', color: '#333', cursor: 'pointer', 
-                fontSize: window.innerWidth <= 480 ? '0.9rem' : '1rem',
-                minWidth: window.innerWidth <= 480 ? '150px' : '180px', 
-                outline: 'none'
-              }}
-            >
-              <option value="All">All Categories</option>
-              {(Array.isArray(categories) ? categories : []).map(category => (
-                <option key={category.name} value={category.name}>
-                  {category.name} ({category.count})
-                </option>
-              ))}
-            </select>
           </div>
         </div>
         
@@ -557,6 +509,38 @@ function Shop() {
           </div>
         </div>
       )}
+
+      {/* Footer */}
+      <footer className="footer" style={{backgroundColor: '#FCF8F3', padding: '2rem 0 1rem 0'}}>
+        <div className="container" style={{maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
+          <div className="footer-content" style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '2fr 1fr 1fr', gap: '2rem', marginBottom: '1.5rem'}}>
+            <div className="footer-section">
+              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>Furniro.</h3>
+              <p style={{color: '#666', lineHeight: '1.5', fontSize: '0.9rem', margin: 0}}>400 University Drive Suite 200<br />Coral Gables, FL 33134 USA</p>
+            </div>
+            <div className="footer-section">
+              <h4 style={{color: '#333', marginBottom: '0.8rem', fontSize: '1rem', fontWeight: '600'}}>Links</h4>
+              <ul style={{listStyle: 'none', padding: 0, margin: 0}}>
+                <li style={{marginBottom: '0.5rem'}}><a href="/" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Home</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="/shop" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Shop</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="/about" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>About</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="/contact" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Contact</a></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4 style={{color: '#333', marginBottom: '0.8rem', fontSize: '1rem', fontWeight: '600'}}>Help</h4>
+              <ul style={{listStyle: 'none', padding: 0, margin: 0}}>
+                <li style={{marginBottom: '0.5rem'}}><a href="#" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Payment Options</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="#" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Returns</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="#" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Privacy Policies</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom" style={{borderTop: '1px solid #ddd', paddingTop: '1rem'}}>
+            <p style={{color: '#666', textAlign: 'center', margin: 0, fontSize: '0.85rem'}}>2025 IFB Sitting Collection. All rights reserved<br/>Developed by - Shine Infosolutions</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

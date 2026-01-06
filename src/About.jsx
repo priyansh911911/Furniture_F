@@ -82,6 +82,37 @@ function About() {
           </div>
         </div>
       </section>
+      {/* Footer */}
+      <footer className="footer" style={{backgroundColor: '#FCF8F3', padding: '2rem 0 1rem 0'}}>
+        <div className="container" style={{maxWidth: '1200px', margin: '0 auto', padding: '0 2rem'}}>
+          <div className="footer-content" style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '2fr 1fr 1fr', gap: '2rem', marginBottom: '1.5rem'}}>
+            <div className="footer-section">
+              <h3 style={{color: '#B88E2F', marginBottom: '0.8rem', fontSize: '1.3rem', fontWeight: 'bold'}}>Furniro.</h3>
+              <p style={{color: '#666', lineHeight: '1.5', fontSize: '0.9rem', margin: 0}}>400 University Drive Suite 200<br />Coral Gables, FL 33134 USA</p>
+            </div>
+            <div className="footer-section">
+              <h4 style={{color: '#333', marginBottom: '0.8rem', fontSize: '1rem', fontWeight: '600'}}>Links</h4>
+              <ul style={{listStyle: 'none', padding: 0, margin: 0}}>
+                <li style={{marginBottom: '0.5rem'}}><a href="/" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Home</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="/shop" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Shop</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="/about" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>About</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="/contact" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Contact</a></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4 style={{color: '#333', marginBottom: '0.8rem', fontSize: '1rem', fontWeight: '600'}}>Help</h4>
+              <ul style={{listStyle: 'none', padding: 0, margin: 0}}>
+                <li style={{marginBottom: '0.5rem'}}><a href="#" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Payment Options</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="#" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Returns</a></li>
+                <li style={{marginBottom: '0.5rem'}}><a href="#" style={{color: '#666', textDecoration: 'none', fontSize: '0.9rem'}}>Privacy Policies</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom" style={{borderTop: '1px solid #ddd', paddingTop: '1rem'}}>
+            <p style={{color: '#666', textAlign: 'center', margin: 0, fontSize: '0.85rem'}}>2025 IFB Sitting Collection. All rights reserved</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

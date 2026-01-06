@@ -6,10 +6,10 @@ import Shop from './Shop'
 import About from './About'
 import Contact from './Contact'
 import Admin from './Admin'
+import { DataProvider, useData } from './DataContext'
 
 function AppContent() {
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  const { products, categories } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', message: '' });
@@ -41,39 +41,16 @@ function AppContent() {
   };
 
   useEffect(() => {
-    fetchCategories();
-    fetchProducts();
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
   }, []);
-
-
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setCategories(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setCategories([]);
-    }
-  };
-
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setProducts(data.products || []);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setProducts([]);
-    }
-  };
 
 
 
@@ -138,20 +115,24 @@ function AppContent() {
           <div className="category-scroll-container" style={{overflow: 'hidden', position: 'relative'}}>
             <div className="category-scroll" style={{
               display: 'flex',
-              animation: 'scroll 20s linear infinite',
+              animation: 'scroll 10s linear infinite',
               width: 'fit-content'
             }}>
-              {[...categories, ...categories, ...categories].map((category, index) => {
-                const categoryProduct = products.find(p => p.category === category.name);
-                if (!categoryProduct?.images?.[0]) return null;
+              {[...products, ...products, ...products].map((product, index) => {
+                if (!product?.images?.[0]) return null;
                 return (
-                  <div key={`${category.name}-${index}`} className="category-item" style={{
+                  <div key={`${product._id}-${index}`} className="category-item" style={{
                     minWidth: '300px',
                     margin: '0 1rem',
-                    flexShrink: 0
-                  }}>
-                    <img src={categoryProduct.images[0]} alt={category.name} />
-                    <h3>{category.name} ({category.count})</h3>
+                    flexShrink: 0,
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => e.target.closest('.category-scroll').style.animationPlayState = 'paused'}
+                  onMouseLeave={(e) => e.target.closest('.category-scroll').style.animationPlayState = 'running'}
+                  onClick={() => navigate(`/shop?category=${product.category}`)}
+                  >
+                    <img src={product.images[0]} alt={product.name} />
+                    <h3>{product.name}</h3>
                   </div>
                 );
               }).filter(Boolean)}
@@ -222,8 +203,6 @@ function AppContent() {
           referrerPolicy="no-referrer-when-downgrade"
         />
       </section>
-
-
 
       {/* Search Modal */}
       {showSearchModal && (
@@ -330,7 +309,7 @@ function AppContent() {
             </div>
           </div>
           <div className="footer-bottom" style={{borderTop: '1px solid #ddd', paddingTop: '1rem'}}>
-            <p style={{color: '#666', textAlign: 'center', margin: 0, fontSize: '0.85rem'}}>2023 furniro. All rights reserved</p>
+            <p style={{color: '#666', textAlign: 'center', margin: 0, fontSize: '0.85rem'}}>2025 IFB Sitting Collection. All rights reserved<br/>Developed by - Shine Infosolutions</p>
           </div>
         </div>
       </footer>
@@ -426,7 +405,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <DataProvider>
+        <AppContent />
+      </DataProvider>
     </Router>
   )
 }
