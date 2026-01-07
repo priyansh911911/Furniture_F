@@ -108,52 +108,32 @@ function AppContent() {
         />
         <div style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.4)'}}></div>
         
-        {/* Movie-style Text Container - Left and Right Bottom */}
+        {/* Centered Text */}
         <div style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 3,
-          pointerEvents: 'none'
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          color: 'white',
+          textAlign: 'center',
+          fontFamily: 'serif',
+          fontWeight: 'bold',
+          zIndex: 3
         }}>
-          {/* Left Bottom Text */}
           <div style={{
-            position: 'absolute',
-            bottom: isMobile ? '15%' : '8%',
-            left: '5%',
-            color: 'white',
-            textAlign: 'left',
-            fontFamily: 'serif',
-            maxWidth: isMobile ? '40%' : 'auto'
+            opacity: 0,
+            animation: 'textLoop 8s infinite'
           }}>
-            <div style={{
-              opacity: 0,
-              animation: 'textLoop 8s infinite'
-            }}>
-              <div style={{fontSize: isMobile ? '1rem' : '1.8rem', fontWeight: '300', marginBottom: '0.3rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)', lineHeight: '1.2'}}>"Premium Quality Furniture"</div>
-              <div style={{fontSize: isMobile ? '0.8rem' : '1.2rem', fontWeight: '200', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Handcrafted Excellence</div>
-            </div>
+            <div style={{fontSize: isMobile ? '1.2rem' : '2rem', fontWeight: 'bold', marginBottom: '0.5rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)'}}>"Premium Quality Furniture"</div>
+            <div style={{fontSize: isMobile ? '1rem' : '1.5rem', fontWeight: '300', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Handcrafted Excellence</div>
           </div>
           
-          {/* Right Bottom Text */}
           <div style={{
-            position: 'absolute',
-            bottom: isMobile ? '15%' : '8%',
-            right: '5%',
-            color: 'white',
-            textAlign: 'right',
-            fontFamily: 'serif',
-            maxWidth: isMobile ? '40%' : 'auto'
+            opacity: 0,
+            animation: 'textLoop 8s infinite 4s'
           }}>
-            <div style={{
-              opacity: 0,
-              animation: 'textLoop 8s infinite 4s'
-            }}>
-              <div style={{fontSize: isMobile ? '1rem' : '1.8rem', fontWeight: '300', marginBottom: '0.3rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)', lineHeight: '1.2'}}>"Modern Home Essentials"</div>
-              <div style={{fontSize: isMobile ? '0.8rem' : '1.2rem', fontWeight: '200', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Contemporary Design</div>
-            </div>
+            <div style={{fontSize: isMobile ? '1.2rem' : '2rem', fontWeight: 'bold', marginBottom: '0.5rem', textShadow: '2px 2px 4px rgba(0,0,0,0.9)'}}>"Modern Home Essentials"</div>
+            <div style={{fontSize: isMobile ? '1rem' : '1.5rem', fontWeight: '300', textShadow: '1px 1px 2px rgba(0,0,0,0.9)'}}>Contemporary Design</div>
           </div>
         </div>
         
@@ -213,7 +193,46 @@ function AppContent() {
           }
         `}</style>
       </section>
-
+      {/* About Section */}
+      <section className="about" style={{padding: window.innerWidth <= 480 ? '2.5rem 0' : window.innerWidth <= 768 ? '3rem 0' : '4rem 0', backgroundColor: '#f9f9f9'}}>
+        <div className="container">
+          <div style={{display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '1fr 1fr', gap: window.innerWidth <= 480 ? '2rem' : '3rem', alignItems: 'center'}}>
+            <div>
+              <h2 style={{fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2rem' : '2.5rem', marginBottom: '1rem', color: '#B88E2F'}}>About IFB</h2>
+              <p style={{fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem', lineHeight: '1.8', color: '#666', marginBottom: '1.5rem'}}>
+                We are passionate about creating beautiful, functional furniture that transforms your living spaces. 
+                With over a decade of experience in furniture design and manufacturing, we bring you quality pieces 
+                that combine style, comfort, and durability.
+              </p>
+              <p style={{fontSize: window.innerWidth <= 480 ? '0.95rem' : '1.1rem', lineHeight: '1.8', color: '#666', marginBottom: '2rem'}}>
+                Our commitment to excellence and customer satisfaction has made us a trusted name in home furnishing. 
+                Every piece is carefully crafted to meet the highest standards of quality and design.
+              </p>
+              <div style={{display: 'flex', gap: window.innerWidth <= 480 ? '1rem' : '2rem', flexDirection: window.innerWidth <= 480 ? 'column' : 'row'}}>
+                <div>
+                  <h3 style={{fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem', color: '#B88E2F', margin: '0'}}>500+</h3>
+                  <p style={{color: '#666', margin: '0.5rem 0 0 0'}}>Happy Customers</p>
+                </div>
+                <div>
+                  <h3 style={{fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem', color: '#B88E2F', margin: '0'}}>10+</h3>
+                  <p style={{color: '#666', margin: '0.5rem 0 0 0'}}>Years Experience</p>
+                </div>
+                <div>
+                  <h3 style={{fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem', color: '#B88E2F', margin: '0'}}>50+</h3>
+                  <p style={{color: '#666', margin: '0.5rem 0 0 0'}}>Product Categories</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <img 
+                src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop" 
+                alt="About Furniro" 
+                style={{width: '100%', borderRadius: '10px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', marginTop: window.innerWidth <= 768 ? '2rem' : '0'}}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
 
       {/* Inspiration Section */}
